@@ -40,11 +40,11 @@ function updateState(constants, worldConstruct, state){
     return nextState;
   }
 
-  if (position.x > state.maxPositionx + 0.02) {
+  if (position.x > state.maxPositionx) {// + 0.02) {
     nextState.health = constants.max_car_health;
     return nextState;
   }
-  nextState.health = state.health - 1;
+  nextState.health = state.health - 0.1;
   if (Math.abs(worldConstruct.chassis.GetLinearVelocity().x) < 0.001) {
     nextState.health -= 5;
   }

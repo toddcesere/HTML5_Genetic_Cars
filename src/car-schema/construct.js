@@ -19,7 +19,7 @@ function worldDef(){
     max_car_health: box2dfps * 10,
     tileDimensions: {
       width: 1.5,
-      height: 0.15
+      height: 0.03
     }
   };
 }

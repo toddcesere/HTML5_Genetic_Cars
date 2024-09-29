@@ -86,7 +86,7 @@ var world_def = {
   gravity: new b2Vec2(0.0, -9.81),
   doSleep: true,
   floorseed: btoa(Math.seedrandom()),
-  tileDimensions: new b2Vec2(1.5, 0.15),
+  tileDimensions: new b2Vec2(1.5, 0.03),
   maxFloorTiles: 200,
   mutable_floor: false,
   box2dfps: box2dfps,
