@@ -16,17 +16,17 @@ cw_Car.prototype.__constructor = function (car) {
   this.frames = 0;
   this.alive = true;
   this.is_elite = car.def.is_elite;
-  this.healthBar = document.getElementById("health" + car_def.index).style;
+  this.healthBar = document.getElementById("health" + car_def.index);
   this.healthBarText = document.getElementById("health" + car_def.index).nextSibling.nextSibling;
   this.healthBarText.innerHTML = car_def.index;
   this.minimapmarker = document.getElementById("bar" + car_def.index);
 
   if (this.is_elite) {
-    this.healthBar.backgroundColor = "#3F72AF";
+    this.healthBar.style.backgroundColor = "#3F72AF";
     this.minimapmarker.style.borderLeft = "1px solid #3F72AF";
     this.minimapmarker.innerHTML = car_def.index;
   } else {
-    this.healthBar.backgroundColor = "#F7C873";
+    this.healthBar.style.backgroundColor = "#F7C873";
     this.minimapmarker.style.borderLeft = "1px solid #F7C873";
     this.minimapmarker.innerHTML = car_def.index;
   }
@@ -47,12 +47,12 @@ cw_Car.prototype.kill = function (currentRunner, constants) {
   })
   switch(status){
     case 1: {
-      this.healthBar.width = "0";
+      this.healthBar.style.width = "0";
       break
     }
     case -1: {
       this.healthBarText.innerHTML = "&dagger;";
-      this.healthBar.width = "0";
+      this.healthBar.style.width = "0";
       break
     }
   }

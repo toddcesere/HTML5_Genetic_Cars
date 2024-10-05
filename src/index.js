@@ -341,7 +341,7 @@ function updateCarUI(carInfo){
 
   ghost_add_replay_frame(car.replay, car.car.car);
   car.minimapmarker.style.left = Math.round((position.x + 5) * minimapscale) + "px";
-  car.healthBar.width = Math.round((car.car.state.health / max_car_health) * 100) + "%";
+  car.healthBar.style.width = Math.round((car.car.state.health / max_car_health) * 100) + "%";
   if (position.x > leaderPosition.x) {
     leaderPosition = position;
     leaderPosition.leader = k;
@@ -458,6 +458,12 @@ function setupCarUI(){
   currentRunner.cars.map(function(carInfo){
     var car = new cw_Car(carInfo, carMap);
     carMap.set(carInfo, car);
+
+    // Setup the healthbars to switch the camera view when you click them
+    car.healthBar.addEventListener("click", function(e){
+      cw_setCameraTarget(carInfo);
+    });
+
     car.replay = ghost_create_replay();
     ghost_add_replay_frame(car.replay, car.car.car);
   })
@@ -680,6 +686,10 @@ document.querySelector("#gravity").addEventListener("change", function(e){
 document.querySelector("#elitesize").addEventListener("change", function(e){
   var elem = e.target
   cw_setEliteSize(elem.options[elem.selectedIndex].value)
+})
+
+document.querySelector("#watch-leader").addEventListener("click", function(e){
+  cw_setCameraTarget(-1);
 })
 
 function cw_setMutation(mutation) {
