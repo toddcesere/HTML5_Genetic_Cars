@@ -12,6 +12,16 @@ function defToCar(normal_def, world, constants){
   instance.chassis = createChassis(
     world, car_def.vertex_list, car_def.chassis_density
   );
+
+  // Keep track of the lowest point so that we can place the car on the ground
+  var relativeBottom = 100;
+  // Loop through the vertices of the chassis to find the lowest point
+  for (var i = 0; i < instance.chassis.vertex_list.length; i++) {
+    if (instance.chassis.vertex_list[i].y < relativeBottom) {
+      relativeBottom = instance.chassis.vertex_list[i].y;
+    }
+  }
+
   var i;
 
   var wheelCount = car_def.wheel_radius.length;
@@ -36,6 +46,13 @@ function defToCar(normal_def, world, constants){
     var torque = carmass * -constants.gravity.y / car_def.wheel_radius[i];
 
     var randvertex = instance.chassis.vertex_list[car_def.wheel_vertex[i]];
+
+    // Keep track of the lowest point of the wheels.
+    var relativeWheelBottom = randvertex.y - car_def.wheel_radius[i];
+    if (relativeWheelBottom < relativeBottom) {
+      relativeBottom = relativeWheelBottom;
+    }
+
     joint_def.localAnchorA.Set(randvertex.x, randvertex.y);
     joint_def.localAnchorB.Set(0, 0);
     joint_def.maxMotorTorque = torque;
@@ -44,6 +61,14 @@ function defToCar(normal_def, world, constants){
     joint_def.bodyA = instance.chassis;
     joint_def.bodyB = instance.wheels[i];
     world.CreateJoint(joint_def);
+  }
+
+  // Set the car on the ground by setting the position of the chassis and then positioning the wheels where there are already attached. If I don't do this than the physics yanks the joints together so hard that it can send the car spinning or make it enter the ground.
+  var position = instance.chassis.GetPosition();
+  instance.chassis.SetPosition({x: position.x, y: - relativeBottom + world.startHeight});
+  for (i = 0; i < wheelCount; i++) {
+    var randvertex = instance.chassis.vertex_list[car_def.wheel_vertex[i]];
+    instance.wheels[i].SetPosition(instance.chassis.GetWorldPoint(randvertex));
   }
 
   return instance;

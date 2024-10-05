@@ -28,14 +28,32 @@ module.exports = function(world_def){
     floorTiles.length - 1
   ];
   var last_fixture = last_tile.GetFixtureList();
-  var tile_position = last_tile.GetWorldPoint(
+  var last_tile_position = last_tile.GetWorldPoint(
     last_fixture.GetShape().m_vertices[3]
   );
-  world.finishLine = tile_position.x;
+
+  // Loop through first several tiles to find a safe height for placing cars
+  world.startHeight = -10;
+  for (var i = 0; i < 20; i++) {
+    var tile = floorTiles[i];
+    var fixture = tile.GetFixtureList();
+    var topRightVertice = tile.GetWorldPoint(fixture.GetShape().m_vertices[3]);
+    var topLeftVertice = tile.GetWorldPoint(fixture.GetShape().m_vertices[0]);
+    if (topRightVertice.y > world.startHeight) {
+      world.startHeight = topRightVertice.y;
+    }
+    if (topLeftVertice.y > world.startHeight) {
+      world.startHeight = topLeftVertice.y;
+    }
+    if (topRightVertice.x > 2) {
+      break;
+    }
+  }
+  world.finishLine = last_tile_position.x;
   return {
     world: world,
     floorTiles: floorTiles,
-    finishLine: tile_position.x
+    finishLine: last_tile_position.x
   };
 }
 
