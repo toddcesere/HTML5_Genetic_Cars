@@ -31,7 +31,8 @@ function defToCar(normal_def, world, constants){
     instance.wheels[i] = createWheel(
       world,
       car_def.wheel_radius[i],
-      car_def.wheel_density[i]
+      car_def.wheel_density[i],
+      car_def.wheel_friction_exponent[i]
     );
   }
 
@@ -123,7 +124,7 @@ function createChassisPart(body, vertex1, vertex2, density) {
   body.CreateFixture(fix_def);
 }
 
-function createWheel(world, radius, density) {
+function createWheel(world, radius, density, friction_exponent) {
   var body_def = new b2BodyDef();
   body_def.type = b2Body.b2_dynamicBody;
   body_def.position.Set(0, 0);
@@ -133,7 +134,7 @@ function createWheel(world, radius, density) {
   var fix_def = new b2FixtureDef();
   fix_def.shape = new b2CircleShape(radius);
   fix_def.density = density;
-  fix_def.friction = 1;
+  fix_def.friction = Math.pow(10, friction_exponent);
   fix_def.restitution = 0.2;
   fix_def.filter.groupIndex = -1;
 

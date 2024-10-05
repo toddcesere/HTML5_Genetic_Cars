@@ -6,8 +6,10 @@ module.exports = function(car_constants, myCar, camera, ctx){
   var camera_x = camera.pos.x;
   var zoom = camera.zoom;
 
-  var wheelMinDensity = car_constants.wheelMinDensity
-  var wheelDensityRange = car_constants.wheelDensityRange
+  var wheelMinDensity = car_constants.wheelMinDensity;
+  var wheelDensityRange = car_constants.wheelDensityRange;
+  var wheelMinFrictionExponent = car_constants.wheelMinFrictionExponent;
+  var wheelFrictionExponentRange = car_constants.wheelFrictionExponentRange;
 
   if (!myCar.alive) {
     return;
@@ -19,18 +21,18 @@ module.exports = function(car_constants, myCar, camera, ctx){
     return;
   }
 
-  ctx.strokeStyle = "#444";
   ctx.lineWidth = 1 / zoom;
 
   var wheels = myCar.car.car.wheels;
 
   for (var i = 0; i < wheels.length; i++) {
-    var b = wheels[i];
-    for (var f = b.GetFixtureList(); f; f = f.m_next) {
-      var s = f.GetShape();
-      var color = Math.round(255 - (255 * (f.m_density - wheelMinDensity)) / wheelDensityRange).toString();
+    var wheel = wheels[i];
+    for (var fixture = wheel.GetFixtureList(); fixture; fixture = fixture.m_next) {
+      var shape = fixture.GetShape();
+      var color = Math.round(255 - (255 * (fixture.m_density - wheelMinDensity)) / wheelDensityRange).toString();
       var rgbcolor = "rgb(" + color + "," + color + "," + color + ")";
-      cw_drawCircle(ctx, b, s.m_p, s.m_radius, b.m_sweep.a, rgbcolor);
+      ctx.strokeStyle = "rgb(" + Math.round(255 * (Math.log10(fixture.m_friction) - wheelMinFrictionExponent) / wheelFrictionExponentRange).toString() + ", 0, 0)";
+      cw_drawCircle(ctx, wheel, shape.m_p, shape.m_radius, wheel.m_sweep.a, rgbcolor);
     }
   }
 

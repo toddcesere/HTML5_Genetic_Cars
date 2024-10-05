@@ -9,7 +9,7 @@ function pickParent(currentChoices, chooseId, key /* , parents */){
   var state = currentChoices.get(chooseId);
   // console.log(state.curparent);
   state.i++
-  if(["wheel_radius", "wheel_vertex", "wheel_density"].indexOf(key) > -1){
+  if(["wheel_radius", "wheel_vertex", "wheel_density", "wheel_friction_exponent"].indexOf(key) > -1){
     state.curparent = cw_chooseParent(state);
     return state.curparent;
   }

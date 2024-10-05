@@ -44,6 +44,13 @@ function generateSchema(values){
       range: values.wheelDensityRange,
       factor: 1,
     },
+    wheel_friction_exponent: {
+      type: "float",
+      length: values.wheelCount,
+      min: values.wheelMinFrictionExponent,
+      range: values.wheelFrictionExponentRange,
+      factor: 1,
+    },
     chassis_density: {
       type: "float",
       length: 1,

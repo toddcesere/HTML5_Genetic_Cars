@@ -4,6 +4,8 @@
   "wheelRadiusRange": 0.5,
   "wheelMinDensity": 40,
   "wheelDensityRange": 100,
+  "wheelMinFrictionExponent": -2,
+  "wheelFrictionExponentRange": 3,
   "chassisDensityRange": 300,
   "chassisMinDensity": 30,
   "chassisMinAxis": 0.1,
