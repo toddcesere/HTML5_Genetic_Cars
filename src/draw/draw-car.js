@@ -36,7 +36,10 @@ module.exports = function(car_constants, myCar, camera, ctx){
     }
   }
 
-  if (myCar.is_elite) {
+  if (myCar.is_all_time_best) {
+    ctx.strokeStyle = "#00FF00";
+    ctx.fillStyle = "#00AA00";
+  } else if (myCar.is_elite) {
     ctx.strokeStyle = "#3F72AF";
     ctx.fillStyle = "#DBE2EF";
   } else {

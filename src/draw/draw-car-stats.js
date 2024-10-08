@@ -16,6 +16,7 @@ cw_Car.prototype.__constructor = function (car) {
   this.frames = 0;
   this.alive = true;
   this.is_elite = car.def.is_elite;
+  this.is_all_time_best = car.def.is_all_time_best;
   this.healthBar = document.getElementById("health" + car_def.index);
   this.healthBarText = document.getElementById("health" + car_def.index).nextSibling.nextSibling;
   this.healthBarText.innerHTML = car_def.index;
